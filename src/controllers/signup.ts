@@ -41,7 +41,6 @@ export async function create(req: Request, res: Response): Promise<void> {
     deviceType: 'web',
     browserName: 'chrome'
   } as IAuthDocument;
-  console.log(authData, '=======-------======>');
 
   const result: IAuthDocument = (await createAuthUser(authData)) as IAuthDocument;
   const verificationLink = `${config.CLIENT_URL}/confirm_email?v_token=${authData.emailVerificationToken}`;

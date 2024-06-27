@@ -25,6 +25,6 @@
       "@auth/*": ["src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../gateway-service/src/services/api/buyer.service.ts", "../users-service/src/controllers/buyer/test/test"],
   "exclude": ["node_modules"]
 }

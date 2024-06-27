@@ -5,13 +5,13 @@ import * as auth from '@auth/services/auth.service';
 import * as helper from '@thavananthan/eapp-shared';
 import { Sequelize } from 'sequelize';
 
-jest.mock('@thavananthan/eapp-shared');
+jest.mock('@uzochukwueddie/jobber-shared');
 jest.mock('@auth/services/auth.service');
 jest.mock('@auth/queues/auth.producer');
 jest.mock('@elastic/elasticsearch');
 
-const USERNAME = 'test';
-const PASSWORD = 'test123@';
+const USERNAME = 'Manny';
+const PASSWORD = 'manny1';
 
 let mockConnection: Sequelize;
 

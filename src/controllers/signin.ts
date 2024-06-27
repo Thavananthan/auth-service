@@ -1,14 +1,17 @@
 // import { randomInt } from 'crypto';
-
+import { config } from '@auth/config';
 import { AuthModel } from '@auth/models/auth.schema';
 import { loginSchema } from '@auth/schemes/signin';
 import { getUserByEmail, getUserByUsername, signToken } from '@auth/services/auth.service';
-import { BadRequestError, IAuthDocument, isEmail } from '@thavananthan/eapp-shared';
+import { BadRequestError, IAuthDocument, isEmail, winstonLogger } from '@thavananthan/eapp-shared';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { omit } from 'lodash';
+import { Logger } from 'winston';
 // import { publishDirectMessage } from '@auth/queues/auth.producer';
 // import { authChannel } from '@auth/server';
+
+const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'authServiceProducer', 'debug');
 
 export async function read(req: Request, res: Response): Promise<void> {
   const { error } = await Promise.resolve(loginSchema.validate(req.body));
@@ -27,8 +30,9 @@ export async function read(req: Request, res: Response): Promise<void> {
   }
 
   const userJWT = signToken(existingUser.id!, existingUser.email!, existingUser.username!);
+  log.log('info', 'User login successfully', { username: existingUser.username, email: existingUser.email, userJWT });
   const userData = omit(existingUser, ['password']);
-  res.status(StatusCodes.OK).json({ message: 'User created successfully', user: userData, token: userJWT });
+  res.status(StatusCodes.OK).json({ message: 'User created successfully', token: userJWT, user: userData });
 
   // let userJWT = '';
   // let userData: IAuthDocument | null = null;
